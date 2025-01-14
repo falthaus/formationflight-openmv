@@ -6,6 +6,7 @@ Displays camera framebuffer (in IDE) with optional, customizable crosshairs.
 
 Customizable parameters:
 
+FRAMESIZE (int):        Framesize configuration (from 'sensor' module)
 (CX, CY) (int, int):    Center of cross-hairs (e.g. calibrated optical axis)
 COLOR (int):            Crosshairs/line color (0..255: white. 255, black: 0)
 SHOW_CROSSHAIRS (bool)  Enable (True) / disable (False) display of crosshairs
@@ -19,29 +20,32 @@ GAIN_DB (int)           Camera gain [db], None for auto gain
 """
 
 
-(CX, CY) = (320, 240)   # Crosshairs center
-
-COLOR = 255             # Crosshairs color (white: 255, black: 0)
-
-SHOW_CROSSHAIRS = True  # Enable user-defined crosshairs
-
-SHOW_CENTER = True      # Enable geometric image center indicator
-
-EXPOSURE_US = None      # Camera exposure time [us], None for auto exposure
-GAIN_DB = None          # Camera gain [db], None for auto gain
-
-
-
 
 import sensor
 import pyb
 
 
 
+FRAMESIZE = sensor.VGA      # Sensor framesize (from 'sensor' module)
+                            # VGA:   640 x 480 px
+                            # WVGA2: 752 x 480 px (for the MT9V034)
+
+(CX, CY) = (320, 240)       # Custom crosshairs center
+
+COLOR = 255                 # Crosshairs color (white: 255, black: 0)
+
+SHOW_CROSSHAIRS = False     # Enable user-defined crosshairs
+
+SHOW_CENTER = True          # Enable geometric image center indicator
+
+EXPOSURE_US = None          # Camera exposure time [us], None for auto exposure
+GAIN_DB = None              # Camera gain [db], None for auto gain
+
+
 
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)
-sensor.set_framesize(sensor.VGA)
+sensor.set_framesize(FRAMESIZE)
 sensor.set_vflip(False)
 sensor.set_hmirror(False)
 
@@ -54,7 +58,6 @@ if EXPOSURE_US is None:
     sensor.set_auto_exposure(True)
 else:
     sensor.set_auto_exposure(False, exposure_us = EXPOSURE_US)
-
 
 
 
