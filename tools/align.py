@@ -13,6 +13,8 @@ SHOW_CROSSHAIRS (bool)  Enable (True) / disable (False) display of crosshairs
 SHOW_CENTER (bool)      Enable (True) / disable (False) display of image center
 EXPOSURE_US (int)       Camera exposure time [us], None for auto exposure
 GAIN_DB (int)           Camera gain [db], None for auto gain
+ROI (tuple)             Region of Interest (x,y,w,h,) [px]
+                        (currently shown for information only, no other effects)
 
 
 (C) 2025 Felix Althaus
@@ -26,9 +28,9 @@ import pyb
 
 
 
-FRAMESIZE = sensor.VGA      # Sensor framesize (from 'sensor' module)
-                            # VGA:   640 x 480 px
-                            # WVGA2: 752 x 480 px (for the MT9V034)
+FRAMESIZE = sensor.WVGA2    # Sensor framesize (from 'sensor' module)
+                            # 'sensor.VGA':   640 x 480 px
+                            # 'sensor.WVGA2': 752 x 480 px (for the MT9V034)
 
 (CX, CY) = (320, 240)       # Custom crosshairs center
 
@@ -40,6 +42,10 @@ SHOW_CENTER = True          # Enable geometric image center indicator
 
 EXPOSURE_US = None          # Camera exposure time [us], None for auto exposure
 GAIN_DB = None              # Camera gain [db], None for auto gain
+
+ROI = None                  # Region of Interest: None or tuple (x,y,w,h)
+                            # e.g. left-aligned VGA:  (      0, 0, 640, 480)
+                            # e.g. right-aligned VGA: (752-640, 0, 640, 480)
 
 
 
@@ -90,3 +96,7 @@ while True:
     img.draw_rectangle(sensor.width()-(2+(9*8)+2), 2+10+2, 2+(9*8)+2, 2+10+10+2, color=0, fill=True)
     img.draw_string(sensor.width()-(9*8)-2, 2+(1*10)+2, "{:6.1f} dB".format(sensor.get_gain_db()))
     img.draw_string(sensor.width()-(9*8)-2, 2+(2*10)+2, "{:6d} us".format(sensor.get_exposure_us()))
+
+    # Display region of interest, if defined:
+    if ROI:
+        img.draw_rectangle(ROI, color=COLOR)
