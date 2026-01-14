@@ -3,7 +3,7 @@ Testing basic features and behaviour with old 'sensor' module for GRAYSCALE and 
 The 'sensor' module is deprecated
 The 'pyb' module is deprecated
 
-(C) 2025  Felix Althaus
+(C) 2026  Felix Althaus
 
 """
 
@@ -39,8 +39,6 @@ while True:
         img.draw_cross(blob.cx(), blob.cy(), color=0)
 
     t_exp = sensor.get_exposure_us()
-    gain_db = sensor.get_gain_db()
-    print(gain_db)
 
     # Frame ID:
     img.draw_rectangle(0, 6-6, 2+(7*8)+2, 2+(1*10)+2, color=0, fill=True)
