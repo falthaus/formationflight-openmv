@@ -7,6 +7,8 @@ The 'pyb' module is deprecated
 
 """
 
+CROP_FACTOR = 0.8   # 1.0 or lower if full frame size is not supported
+
 
 import sensor
 import pyb
@@ -14,8 +16,9 @@ import pyb
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.VGA)
-sensor.set_windowing((500, 400))
-sensor.set_auto_exposure(False, exposure_us=8000)
+sensor.set_windowing((int(sensor.width()*CROP_FACTOR),
+                      int(sensor.height()*CROP_FACTOR)))
+#sensor.set_auto_exposure(False, exposure_us=8000)
 sensor.set_auto_gain(False, gain_db=0)
 
 

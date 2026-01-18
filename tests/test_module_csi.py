@@ -7,6 +7,8 @@ Also using the 'time' module, instead of the deprecated 'pyb' module
 
 """
 
+CROP_FACTOR = 0.8   # 1.0 or lower if full frame size is not supported
+
 
 import csi
 import time
@@ -16,8 +18,9 @@ sensor = csi.CSI()
 sensor.reset()
 sensor.pixformat(csi.GRAYSCALE)
 sensor.framesize(csi.VGA)
-sensor.window((500, 400))
-sensor.auto_exposure(False, exposure_us=8000)
+sensor.window((int(sensor.width()*CROP_FACTOR),
+               int(sensor.height()*CROP_FACTOR)))
+#sensor.auto_exposure(False, exposure_us=8000)
 sensor.auto_gain(False, gain_db=0)
 
 
