@@ -50,7 +50,10 @@ while True:
     # the horizon itself. Line y-coordinates have to be doubled to get the estimated horizon.
     # The 'line' object has an angle, theta(), but this is an integer
     # This provides the full resolution angle as float
-    angle_rad = math.atan(2*(line.y2()-line.y1()) / (line.x2()-line.x1()) )
+    if (line.x2()-line.x1()) != 0:
+        angle_rad = math.atan(2*(line.y2()-line.y1()) / (line.x2()-line.x1()) )
+    else:
+        angle_ra = 0
 
     if debug:
         # Convert to RGB so the estimated horizon is drawn in colour
